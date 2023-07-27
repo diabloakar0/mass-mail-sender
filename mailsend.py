@@ -2,15 +2,16 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
+import time
 
-sender_email = "mail@gmail.com"  # sender mail
-sender_password = "password"  # sender 2fa pass
-subject = "HTML E-posta"  # e mail subject
+sender_email = "mail@gmail.com"  # gönderen e-posta
+sender_password = "password"  # gönderen 2FA parolası
+subject = "HTML E-posta"  # e-posta konusu
 
 with open("email.html", "r") as file:
     html_content = file.read()
 
-with open("mailler.txt", "r") as file: # mail list (mailler.txt)
+with open("mailler.txt", "r") as file: # mail listesi (mailler.txt)
     mailler = file.read().splitlines()
 
 for mail in mailler:
@@ -28,8 +29,11 @@ for mail in mailler:
             server.login(sender_email, sender_password)
             server.sendmail(sender_email, mail, msg.as_string())
 
-        print(f"E-mail send: {mail}")
-    except Exception as e:
-        print(f"Error: {e}")
+        print(f"E-posta gönderildi: {mail}")
 
-print("Email sending to all emails has been completed.")
+#        time.sleep(60)  Attıktan sonra beklemesini istiyorsan "#" ı sil ve "60" yerine beklenecek saniyeyi gir.
+
+    except Exception as e:
+        print(f"Hata: {e}")
+
+print("Tüm e-postaların gönderimi tamamlandı.")
